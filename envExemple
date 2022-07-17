@@ -1,0 +1,3 @@
+LOGIN = 
+PASSWORD = 
+# Adicionar dados sensiveis dentro do .env como TOKENS, DADOS SENSIVEIS dentre outros.

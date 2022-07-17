@@ -1,0 +1,6 @@
+# ignorar pastas geradas pelo vscode
+.vscode
+# ignorar node_modules
+/node_modules
+# ignorar env
+.env
