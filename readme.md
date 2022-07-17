@@ -40,19 +40,19 @@ Escrito por: Vitor Batista - Desenvolvedor Back - End
 # Para empresa
 - `Menu Administrativo`: Menu administrativo para Gerentes e SubGerentes.
     - `ID com privilegios`: Funcionarios terão seus niveis de privilegio dentro do projeto contendo seu login e senha e um ID administrativo.
-    - Cada funcionario terá niveis de privilegio baseado em seu ID sendo eles:
+    - Cada funcionario terá niveis de privilegio baseado em seu ID sendo eles.
 
-        -[x] ID:01 - Gerente
-         - Acesso completo a aplicação. tudo do subgerente + acesso aos relatorios do subgerente
+      -ID:01 - Gerente
+        - Acesso completo a aplicação. tudo do subgerente + acesso aos relatorios do subgerente
       
-        -[x] ID:10 - SubGerente
-         - Acesso a relatórios dos funcionarios e as mesmas funcionalidades
+      -ID:10 - SubGerente
+       - Acesso a relatórios dos funcionarios e as mesmas funcionalidades
 
-        -[x] ID:15 - Funcionario
-         - Criação dos anuncios e cadastramento de novas contas.
+      -ID:15 - Funcionario
+       - Criação dos anuncios e cadastramento de novas contas.
 
-        -[x] ID:20 - Administrador
-         - Cuida de toda a parte da aplicação tendo privilegios para acessar os arquivos.
+      -ID:20 - Administrador
+       - Cuida de toda a parte da aplicação tendo privilegios para acessar os arquivos.
         
 - `Dados de Log`: A empresa recebera no painel adminstrativo todos os dados de log serão armazenados em um banco de dados, todos os dados armazenados poderam ser convertidos em arquivos ``power bi`` e serem feitos o download.
     - Dentro do arquivo ira conter as seguintes informações:
