@@ -13,22 +13,24 @@ Escrito por: Vitor Batista - Desenvolvedor Back - End
 ## ✔️ Técnicas e Tecnologias
 **FrameWork Principal - Puppeteer**
 - ``puppeteer: v15.4.0``
+
 **Dependencias**
 - ``nodemon: v2.0.19``
 - ``express: v4.18.1``
 - ``dotenv: v16.0.1``
-**Tecnicas**
-- ``Código orientado a Objeto``
-**Design Pattern**
-- ``Factory``
-**🕓 - DataBase**
-- ``Postgree``
-## :hammer: Funcionalidades do projeto
 
-## 📌Figma com nosso Organograma
-    **No [link](https://www.figma.com/file/cCtnBcv870yvqr26uhDegf/Untitled?node-id=108%3A845) está presente todo o nosso organograma de código de como está planejada a versão 1.0 do projeto como um todo.**
+**Tecnicas - ``Código orientado a Objeto``**
 
-# ⚙️ Automatização de processos
+**Design Pattern - ``Factory``**
+
+**🕓 - DataBase - ``Postgree``**
+
+
+##📌Figma com nosso Organograma
+    No [link](https://www.figma.com/file/cCtnBcv870yvqr26uhDegf/Untitled?node-id=108%3A845) está presente todo o nosso organograma de código de como está planejada a versão 1.0 do projeto como um todo.
+
+# :hammer: Funcionalidades do projeto
+## ⚙️ Automatização de processos
   
 - `Criação de Anuncios`: Criação de anuncios nas plataformas OLX e Facebook 
 - `Produtos`: Criação de produtos para serem anunciados seguindo os requisitos da plataforma proposta
