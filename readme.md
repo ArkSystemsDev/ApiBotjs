@@ -43,10 +43,10 @@ Escrito por: Vitor Batista - Desenvolvedor Back - End
     - Cada funcionario terá niveis de privilegio baseado em seu ID sendo eles:
 
         -[x] ID:01 - Gerente
-         - Acesso completo a aplicação.
+         - Acesso completo a aplicação. tudo do subgerente + acesso aos relatorios do subgerente
       
         -[x] ID:10 - SubGerente
-         - Acesso a relatórios de consultores
+         - Acesso a relatórios dos funcionarios e as mesmas funcionalidades
 
         -[x] ID:15 - Funcionario
          - Criação dos anuncios e cadastramento de novas contas.
