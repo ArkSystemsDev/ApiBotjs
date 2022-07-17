@@ -19,8 +19,6 @@ Escrito por: Vitor Batista - Desenvolvedor Back - End
 - ``express: v4.18.1``
 - ``dotenv: v16.0.1``
 
-**Tecnicas - ``Código orientado a Objeto``**
-
 **Design Pattern - ``Factory``**
 
 **🕓 - DataBase - ``Postgree``**
