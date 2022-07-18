@@ -17,10 +17,9 @@ function ChooseCategory(param) {
 function category(_categorias_) {
   for (let i = 0; i <= categorias.length; i++) {
     if (_categorias_ == categorias[i]) {
-      console.log("categoria selecionada" + categorias[i]);
-      return category[i];
+      console.log("categoria selecionada " + categorias[i]);
+      return categorias[i];
     }
   }
 }
-
 module.exports = { category };

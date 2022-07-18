@@ -3,9 +3,7 @@ const puppeteer = require('puppeteer');
 const c = require("../AnnounceCreation/Categorias")
 require("dotenv").config();
 
-//.env
 
-require("dotenv").config();
 (async () => {
     const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
@@ -27,5 +25,8 @@ require("dotenv").config();
     await page.goto('https://www2.olx.com.br/desapega');
     await page.type('[label="Título*"]', 'teste');
     await page.type('[label="Descrição*"]', 'teste');
-    let category_selected = c.category();
+    let category_selected = c.category("Imóveis");
+    //let subcategory_selected = c.subcategory()
+    await page.click(`[title = ${category_selected}]`);
+    await page.click('[title="Casas"]');
 })();
