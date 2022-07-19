@@ -3,7 +3,6 @@ const puppeteer = require('puppeteer');
 const c = require("../AnnounceCreation/Categorias")
 require("dotenv").config();
 
-
 (async () => {
     const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
@@ -26,7 +25,8 @@ require("dotenv").config();
     await page.type('[label="Título*"]', 'teste');
     await page.type('[label="Descrição*"]', 'teste');
     let category_selected = c.category("Imóveis");
-    //let subcategory_selected = c.subcategory()
-    await page.click(`[title = ${category_selected}]`);
-    await page.click('[title="Casas"]');
+    let subcategory_selected = c.subcategory("Casas")
+    await page.click(`[title =${category_selected}]`);
+    await page.click(`[title=${subcategory_selected}]`);
+    await page.type('[label="Localização*"]', '46401543');
 })();
