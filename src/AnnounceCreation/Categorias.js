@@ -1,5 +1,3 @@
-
-
 const categorias = [
   "Imóveis",
   "Autos e peças",
@@ -20,7 +18,11 @@ const subcategoria = [
   "Apartamentos",
   "Casas",
   "Carros, vans e utilitários",
-  "Motos"
+  "Motos",
+  "Ônibus",
+  "Caminhões",
+  "Barcos e aeronaves",
+  "Peças e acessórios",
 ];
 
 function ChooseCategory(param) {
@@ -47,4 +49,5 @@ function category(_categorias_) {
     }
   }
 }
+
 module.exports = {category,subcategory };
