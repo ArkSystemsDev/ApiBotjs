@@ -1,0 +1,46 @@
+<html lang="PT-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registrador</title>
+    </head>
+    <body>
+        <form>
+            <section>
+                <h2>Registrar produto</h2>
+                <p>
+                    <label for="name">
+                    <span>Título</span>
+                    <strong><abbr title="required">*</abbr></strong>
+                    </label>
+                    <input type="text" id="Title" name="ProductName">
+                </p>
+
+                <p>
+                    <label for="Descri">
+                    <span>Descrição </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                    </label>
+                    <textarea id="Desc" rows = "5" cols = "60" name = "description"></textarea>
+                </p>
+
+                <p>
+                <label for="Categoria">
+                    <select id="Category" name="Categorias">
+                    <option value="Carros, vans e utilitários">Carros, vans e utilitários</option>
+                    <option value="Motos">Motos</option>
+                    <option value="Ônibus">Ônibus</option>
+                    <option value="Caminhões">Caminhões</option>
+                    <option value="Barcos e aeronaves">Barcos e aeronaves</option>
+                    </select>
+                </label>
+                </p>
+            </section>
+        </form>
+        <p>
+            <script src="./GetValue.js"></script>
+            <button type="submit" onclick="GetValuesToWrite()">Cadastrar</button>
+        </p>
+    </body>
+</html>
