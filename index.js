@@ -1,4 +1,3 @@
-const { Console } = require('console');
 const puppeteer = require('puppeteer');
 require("dotenv").config();
 
