@@ -15,7 +15,7 @@ require("dotenv").config();
     await page.waitForSelector('#cookie-notice-ok-button');
     await page.click('#cookie-notice-ok-button');
     await page.type('[type="email"]', process.env.LOGIN);
-    await page.type('[type="password"]', process.env.PASSWORLD);
+    await page.type('[type="password"]', process.env.PASSWORD);
     const [button] = await page.$x("//button[contains(., 'Entrar')]");
     if(button){
         await button.click();
