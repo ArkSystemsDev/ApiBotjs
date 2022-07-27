@@ -1,4 +1,4 @@
-
+/*
 const myList = require("./src/products/products.json");
 
 async function SelectProduct() {
@@ -11,6 +11,15 @@ async function teste(){
 
     await SelectProduct();
 
+}
+
+teste();
+*/
+
+const { GenerateAnnunces } = require("./src/products/products");
+
+async function teste() {
+    GenerateAnnunces();
 }
 
 teste();
