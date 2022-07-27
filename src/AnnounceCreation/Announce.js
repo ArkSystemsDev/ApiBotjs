@@ -5,15 +5,15 @@ require("dotenv").config();
 (async () => {
     const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
-    await page.goto('https://www.olx.com.br/');
+    await page.goto('https://www.olx.com.br/',{waitUntil: 'networkidle0'});
     console.log("[+] Acessando OLX...");
     await page.click("[href='https://conta.olx.com.br/anuncios']");
     console.log("[+] Logando...");
     await page.waitForNavigation();
     await page.waitForSelector('#cookie-notice-ok-button');
     await page.click('#cookie-notice-ok-button');
-    await page.type('[type="email"]', 'empregos2003@gmail.com'/*process.env.LOGIN*/);
-    await page.type('[type="password"]', 'Minecraft273!'/*process.env.PASSWORD*/);
+    await page.type('[type="email"]', process.env.LOGIN);
+    await page.type('[type="password"]', process.env.PASSWORD);
     const [button] = await page.$x("//button[contains(., 'Entrar')]");
     if(button){
             await button.click();
@@ -57,7 +57,6 @@ require("dotenv").config();
     await page.type('[label="Preço (R$)"]', '10000');
     //const [uploadbox] = await page.$x("//span[contains(., 'Adicionar fotos')]");
     //await uploadbox.click();
-    await page.screenshot({path: 'test.png'})
     const element = await page.$("input[type=file]");
     await element.uploadFile('./test.png');
 
