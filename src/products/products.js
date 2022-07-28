@@ -31,12 +31,21 @@ async function CreateAnnounces(index) {
     const height = 1600;
     const browser = await puppeteer.launch({
         headless: true,
-        'defaultViewport' : { 'width' : width, 'height' : height }
+        'defaultViewport': { 'width': width, 'height': height }
     });
     const page = await browser.newPage();
+    page.setDefaultNavigationTimeout(90000);
+    //await page.setViewport( { 'width' : width, 'height' : height } );
     console.log("[+] Acessando OLX...");
-    await page.goto('https://www.olx.com.br/');
-    await page.click("[href='https://conta.olx.com.br/anuncios']");
+    await page.goto('https://www.olx.com.br/', {waitUntil: 'networkidle0'});
+    try {
+        await page.click("[href='https://conta.olx.com.br/anuncios']");
+    } catch (err) {
+        console.log("[ERROR] " + err);
+        await page.browser().disconnect;
+        await page.close()
+        CreateAnnounces(index);
+    }
 
     //RETIRADA DO COOKIE DA FRENTE DO BOTÃO DE ENTRADA
     await page.waitForNavigation();
@@ -54,20 +63,16 @@ async function CreateAnnounces(index) {
     }
     try {
         await page.waitForNavigation();
-        await page.goto('https://www2.olx.com.br/desapega');
+        await page.goto('https://www2.olx.com.br/desapega', {waitUntil: 'networkidle0'});
     } catch (err) {
         console.log(["[ERROR] "] + err);
         console.log("[RESET] Redirecte to home page");
-        try {
-            await page.goto('https://www.olx.com.br/');
-            await page.waitForNavigation();
-            await page.click("[href='https://conta.olx.com.br/anuncios']");
-        }
-        catch (err) {
-            console.log("[ERROR] Redirection failure " + err)
-            await page.browser().disconnect;
-            await page.close()
-        }
+       
+        await page.goto('https://www.olx.com.br/', {waitUntil: 'networkidle0'});
+        await page.waitForSelector("[href='https://conta.olx.com.br/anuncios']");
+        await page.click("[href='https://conta.olx.com.br/anuncios']");
+        
+    
     }
 
     console.log("[+] CREATE PRODUCT");
@@ -111,6 +116,8 @@ async function CreateAnnounces(index) {
 
 
         product_count++;
+        i++;
+
     } catch (err) {
         console.log("[ERROR] " + err);
         console.log(".");
@@ -123,7 +130,9 @@ async function CreateAnnounces(index) {
     }
 
 }
+async function init(){
 
+}
 async function GenerateAnnunces() {
     for (let i = 0; i <= max_account_post; i++) {
 

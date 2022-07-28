@@ -16,10 +16,12 @@ async function teste(){
 teste();
 */
 
+const { GetPageCookie } = require("./src/cookies/GetPageCookies");
 const { GenerateAnnunces } = require("./src/products/products");
 
 async function teste() {
-    GenerateAnnunces();
+    GetPageCookie();
+    //GenerateAnnunces();
 }
 
 teste();
