@@ -25,9 +25,14 @@ async function GetPostData(index) {
     }
 
 }
-async function CreateAnnounces(index, value) {
-    let i = value;
-    const browser = await puppeteer.launch({ headless: false });
+async function CreateAnnounces(index) {
+    let i = 0;
+    const width = 1024;
+    const height = 1600;
+    const browser = await puppeteer.launch({
+        headless: true,
+        'defaultViewport' : { 'width' : width, 'height' : height }
+    });
     const page = await browser.newPage();
     console.log("[+] Acessando OLX...");
     await page.goto('https://www.olx.com.br/');
@@ -41,14 +46,24 @@ async function CreateAnnounces(index, value) {
     console.log("[+] INSERT EMAIL AND PASSWORD");
     await page.type('[type="email"]', `${data_[index].login}`);
     await page.type('[type="password"]', `${data_[index].password}`);
-
-    const [button] = await page.$x("//button[contains(., 'Entrar')]");
-    if (button) {
-        await button.click();
-        console.log("[+] SUCESSFULL LOGIN");
+    await page.click("[class='sc-kGXeez kgGtxX']");
+    try {
+        await page.waitForNavigation();
+        await page.goto('https://www2.olx.com.br/desapega');
+    } catch (err) {
+        console.log(["[ERROR] "] + err);
+        console.log("[RESET] Redirecte to home page");
+        try {
+            await page.goto('https://www.olx.com.br/');
+            await page.waitForNavigation();
+            await page.click("[href='https://conta.olx.com.br/anuncios']");
+        }
+        catch (err) {
+            console.log("[ERROR] Redirection failure " + err)
+            await page.browser().disconnect;
+            await page.close()
+        }
     }
-    await page.waitForNavigation();
-    await page.goto('https://www2.olx.com.br/desapega');
 
     console.log("[+] CREATE PRODUCT");
 
@@ -82,7 +97,12 @@ async function CreateAnnounces(index, value) {
         const element = await page.$("input[type=file]");
         await element.uploadFile('./test.png');
         await page.screenshot({ path: "Generic.png" });
+
         console.log("[+] DONE");
+        console.log("[+] CREATE NEW ANNOUNCE");
+
+
+
 
 
         product_count++;
@@ -91,6 +111,7 @@ async function CreateAnnounces(index, value) {
         console.log(".");
         console.log(".");
         console.log(".");
+        await page.browser().disconnect;
         await page.close();
 
         CreateAnnounces(index, i);
@@ -98,16 +119,14 @@ async function CreateAnnounces(index, value) {
 
 }
 
-
 async function GenerateAnnunces() {
     for (let i = 0; i <= max_account_post; i++) {
 
         let response = await GetPostData(index);
         console.log("[STATUS-CODE] " + response);
         if (response) {
-            await CreateAnnounces(index, i);
+            await CreateAnnounces(index);
         }
     }
 }
-
 module.exports = { GenerateAnnunces }
