@@ -34,9 +34,12 @@ async function CreateAnnounces(index, index_2) {
     const width = 1024;
     const height = 1600;
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: false,
         'defaultViewport': { 'width': width, 'height': height }
     });
+    process.on('uncaughtException', (e) => { //correção de erros puppeteer após abrir navegador
+        console.log("uncaughtException:", e);
+    })
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(90000);
 
@@ -67,12 +70,12 @@ async function CreateAnnounces(index, index_2) {
     console.log("[+] INSERT EMAIL AND PASSWORD");
     await page.type('[type="email"]', `${data_[index].login}`);
     await page.type('[type="password"]', `${data_[index].password}`);
-
-    const [button] = await page.$x("//button[contains(., 'Entrar')]");
+    await page.click('[class="sc-kGXeez kgGtxX"]');
+    /*const [button] = await page.$x("//button[contains(., 'Entrar')]");
     if (button) {
         await button.click();
         console.log("[+] SUCESSFULL LOGIN");
-    }
+    }*/
     try {
         await page.waitForNavigation();
         await page.goto('https://www2.olx.com.br/desapega', { waitUntil: 'networkidle0' });
@@ -170,7 +173,7 @@ async function UpdateNewIndex() {
         console.log("[UPDATE] Product count for " + data_[index].user + " is " + product_count);
     }
 }
-async function GenerateAnnounces() {
+async function GenerateAnnunces() {
 
     let product_info = this.product_count;
     let response = await GetPostData(index);
@@ -182,4 +185,4 @@ async function GenerateAnnounces() {
         await CreateAnnounces(index, product_info);
     }
 }
-module.exports = { GenerateAnnounces }
+module.exports = { GenerateAnnunces }

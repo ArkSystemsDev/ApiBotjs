@@ -1,10 +1,10 @@
 const { GetPageCookie } = require("./src/cookies/GetPageCookies");
-const { GenerateAnnounces } = require("./src/products/products");
+const { GenerateAnnunces } = require("./src/products/products");
 
 async function init() {
     await GetPageCookie();
 
-    await GenerateAnnounces();
+    await GenerateAnnunces();
 }
 
 init();
