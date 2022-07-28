@@ -1,6 +1,7 @@
 const categoryList = require("../AnnounceCreation/Categorias.js");
 const puppeteer = require('puppeteer');
 const myList = require("../products/products.json");
+const mycookies = require("../../cookies.json")
 
 const fs = require("fs");
 // vars and constant
