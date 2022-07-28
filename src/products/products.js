@@ -1,7 +1,7 @@
 const categoryList = require("../AnnounceCreation/Categorias.js");
 const puppeteer = require('puppeteer');
 const myList = require("../products/products.json");
-
+const fs = require("fs");
 // vars and constant
 let product_count = 0;
 let index = 0;
@@ -25,8 +25,7 @@ async function GetPostData(index) {
     }
 
 }
-async function CreateAnnounces(index) {
-    let i = 0;
+async function CreateAnnounces(index, i) {
     const width = 1024;
     const height = 1600;
     const browser = await puppeteer.launch({
@@ -35,9 +34,16 @@ async function CreateAnnounces(index) {
     });
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(90000);
+
+    console.log("[SETUP] Setting WebCookies");
+    //loading cookies.
+    const cookiesString = await fs.readFile("./cookies.json");
+    const cookies = JSON.parse(cookiesString);
+    await page.setCookie(...cookies);
+
     //await page.setViewport( { 'width' : width, 'height' : height } );
     console.log("[+] Acessando OLX...");
-    await page.goto('https://www.olx.com.br/', {waitUntil: 'networkidle0'});
+    await page.goto('https://www.olx.com.br/', { waitUntil: 'networkidle0' });
     try {
         await page.click("[href='https://conta.olx.com.br/anuncios']");
     } catch (err) {
@@ -63,16 +69,16 @@ async function CreateAnnounces(index) {
     }
     try {
         await page.waitForNavigation();
-        await page.goto('https://www2.olx.com.br/desapega', {waitUntil: 'networkidle0'});
+        await page.goto('https://www2.olx.com.br/desapega', { waitUntil: 'networkidle0' });
     } catch (err) {
         console.log(["[ERROR] "] + err);
         console.log("[RESET] Redirecte to home page");
-       
-        await page.goto('https://www.olx.com.br/', {waitUntil: 'networkidle0'});
+
+        await page.goto('https://www.olx.com.br/', { waitUntil: 'networkidle0' });
         await page.waitForSelector("[href='https://conta.olx.com.br/anuncios']");
         await page.click("[href='https://conta.olx.com.br/anuncios']");
-        
-    
+
+
     }
 
     console.log("[+] CREATE PRODUCT");
@@ -112,9 +118,6 @@ async function CreateAnnounces(index) {
         console.log("[+] CREATE NEW ANNOUNCE");
 
 
-
-
-
         product_count++;
         i++;
 
@@ -130,8 +133,14 @@ async function CreateAnnounces(index) {
     }
 
 }
-async function init(){
+async function SettingValues() {
+    if (index != Number.parseInt()) {
+        index = 0;
+    }
 
+}
+async function UpdateNewIndex(){
+    
 }
 async function GenerateAnnunces() {
     for (let i = 0; i <= max_account_post; i++) {
