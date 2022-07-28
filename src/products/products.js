@@ -3,10 +3,7 @@ const puppeteer = require('puppeteer');
 const myList = require("../products/products.json");
 const fs = require("fs");
 // vars and constant
-let product_count = 0;
-let index = 0;
-let max_account_post = 2;
-let enable_to_post = false;
+
 let data_ = JSON.parse(JSON.stringify(myList));
 
 
@@ -17,15 +14,16 @@ async function GetPostData(index) {
     if (data_announce >= max_account_post) {
         this.enable_to_post = false;
     } else {
-        console.log("[ACCOUNT-STATUS] Account enable to post");
+        console.log("[ACCOUNT-STATUS] Account enable to post, post's to enable to write: " + data_announce[index].anunciosCadastrados - max_account_post);
+        console.log("[-]--------------------------------------[-]");
         console.log("[ACCOUNT-SELECTED] User: " + data_[index].user);
-        console.log(".");
-        console.log(".");
+        console.log("[-]--------------------------------------[-]");
         return true;
     }
 
 }
-async function CreateAnnounces(index, i) {
+async function CreateAnnounces(index, index_2) {
+    let i = index_2;
     const width = 1024;
     const height = 1600;
     const browser = await puppeteer.launch({
@@ -106,8 +104,6 @@ async function CreateAnnounces(index, i) {
         await box1.click();
         await page.select('[label="Único dono"]', `${data_[index].announce[i].unicoDono}`);
         await page.type('[label="Preço (R$)"]', `${data_[index].announce[i].price}`);
-        const [uploadbox] = await page.$x("//span[contains(., 'Adicionar fotos')]");
-        await uploadbox.click();
 
         console.log("[+] Gerando PDF e Guardando dados...");
         const element = await page.$("input[type=file]");
@@ -115,11 +111,11 @@ async function CreateAnnounces(index, i) {
         await page.screenshot({ path: "Generic.png" });
 
         console.log("[+] DONE");
-        console.log("[+] CREATE NEW ANNOUNCE");
+        console.log("[UPDATE] Call UpdateFunction... next index for new post ");
+
+        UpdateNewIndex();
 
 
-        product_count++;
-        i++;
 
     } catch (err) {
         console.log("[ERROR] " + err);
@@ -133,23 +129,42 @@ async function CreateAnnounces(index, i) {
     }
 
 }
-async function SettingValues() {
-    if (index != Number.parseInt()) {
-        index = 0;
+//index do produto
+let product_count = 0;
+//index do usuário
+let index = 0;
+//numero maximo de postagens
+let max_account_post = 2;
+let enable_to_post = false;
+
+async function SettingDefaultValues() {
+    index = 0;
+    max_account_post = 2;
+    enable_to_post = false;
+    product_count = 0;
+}
+async function UpdateNewIndex() {
+    if(data_[index].anunciosCadastrados == max_account_post){
+        this.index++;
+        product_count = 0;
+        console.log("[NEW_USER] CHANGE USER ACCOUNT, NEW INDEX INSERTED");
+    }else{
+        product_count++;
+        console.log("[UPDATE] Product count for " + data_[index].user + " is " + product_count);
     }
+}
+async function GenerateAnnounces() {
 
-}
-async function UpdateNewIndex(){
-    
-}
-async function GenerateAnnunces() {
     for (let i = 0; i <= max_account_post; i++) {
-
+        let product_info = this.product_count;
         let response = await GetPostData(index);
+
         console.log("[STATUS-CODE] " + response);
         if (response) {
-            await CreateAnnounces(index);
+            await SettingDefaultValues();
+
+            await CreateAnnounces(index, product_info);
         }
     }
 }
-module.exports = { GenerateAnnunces }
+module.exports = { GenerateAnnounces }
