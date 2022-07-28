@@ -1,6 +1,7 @@
 const categoryList = require("../AnnounceCreation/Categorias.js");
 const puppeteer = require('puppeteer');
 const myList = require("../products/products.json");
+
 const fs = require("fs");
 // vars and constant
 
@@ -14,7 +15,8 @@ async function GetPostData(index) {
     if (data_announce >= max_account_post) {
         this.enable_to_post = false;
     } else {
-        console.log("[ACCOUNT-STATUS] Account enable to post, post's to enable to write: " + data_announce[index].anunciosCadastrados - max_account_post);
+
+        console.log("[ACCOUNT-STATUS] Account enable to create post");
         console.log("[-]--------------------------------------[-]");
         console.log("[ACCOUNT-SELECTED] User: " + data_[index].user);
         console.log("[-]--------------------------------------[-]");
@@ -35,7 +37,7 @@ async function CreateAnnounces(index, index_2) {
 
     console.log("[SETUP] Setting WebCookies");
     //loading cookies.
-    const cookiesString = await fs.readFile("./cookies.json");
+    const cookiesString = await fs.readFile(mycookies);
     const cookies = JSON.parse(cookiesString);
     await page.setCookie(...cookies);
 
@@ -144,11 +146,11 @@ async function SettingDefaultValues() {
     product_count = 0;
 }
 async function UpdateNewIndex() {
-    if(data_[index].anunciosCadastrados == max_account_post){
+    if (data_[index].anunciosCadastrados == max_account_post) {
         this.index++;
         product_count = 0;
         console.log("[NEW_USER] CHANGE USER ACCOUNT, NEW INDEX INSERTED");
-    }else{
+    } else {
         product_count++;
         console.log("[UPDATE] Product count for " + data_[index].user + " is " + product_count);
     }
