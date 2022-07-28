@@ -29,8 +29,8 @@ async function GetPostData(index) {
     }
 
 }
-async function CreateAnnounces(index, index_2) {
-    let i = index_2;
+async function CreateAnnounces(index) {
+    let i = index;
     const width = 1024;
     const height = 1600;
     const browser = await puppeteer.launch({
@@ -93,7 +93,7 @@ async function CreateAnnounces(index, index_2) {
     console.log("[+] CREATE PRODUCT");
 
     try {
-        
+        //await page.waitForNavigation();
         await page.waitForSelector('[label="Título*"]');
         await page.type('[label="Título*"]', `${data_[index].announce[i].title}`);
         console.log("[+] 1");
