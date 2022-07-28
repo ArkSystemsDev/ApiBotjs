@@ -1,7 +1,6 @@
 const categoryList = require("../AnnounceCreation/Categorias.js");
 const puppeteer = require('puppeteer');
 const myList = require("../products/products.json");
-const mycookies = require("../../cookies.json")
 
 const fs = require("fs");
 // vars and constant
@@ -33,10 +32,7 @@ async function CreateAnnounces(index) {
     let i = index;
     const width = 1024;
     const height = 1600;
-    const browser = await puppeteer.launch({
-        headless: false,
-        'defaultViewport': { 'width': width, 'height': height }
-    });
+    const browser = await puppeteer.launch({headless: true,'defaultViewport': { 'width': width, 'height': height }});
     process.on('uncaughtException', (e) => { //correção de erros puppeteer após abrir navegador
         console.log("uncaughtException:", e);
     })
@@ -171,6 +167,8 @@ async function UpdateNewIndex() {
         product_count++;
         console.log("[STATUS] actualy index: " + index);
         console.log("[UPDATE] Product count for " + data_[index].user + " is " + product_count);
+        let product_info = this.product_count;
+        await CreateAnnounces(index, product_info);
     }
 }
 async function GenerateAnnunces() {
