@@ -21,6 +21,10 @@ async function GetPostData(index) {
         console.log("[-]--------------------------------------[-]");
         console.log("[ACCOUNT-SELECTED] User: " + data_[index].user);
         console.log("[-]--------------------------------------[-]");
+        console.log(data_[index].announce[product_count]);
+        console.log(".");
+        console.log(".");
+        console.log(".");
         return true;
     }
 
@@ -38,7 +42,7 @@ async function CreateAnnounces(index, index_2) {
 
     console.log("[SETUP] Setting WebCookies");
     //loading cookies.
-    const cookiesString = await fs.readFile(mycookies);
+    const cookiesString = fs.readFileSync("cookies.json");
     const cookies = JSON.parse(cookiesString);
     await page.setCookie(...cookies);
 
@@ -47,10 +51,11 @@ async function CreateAnnounces(index, index_2) {
     await page.goto('https://www.olx.com.br/', { waitUntil: 'networkidle0' });
     try {
         await page.click("[href='https://conta.olx.com.br/anuncios']");
+
     } catch (err) {
         console.log("[ERROR] " + err);
+        await page.close();
         await page.browser().disconnect;
-        await page.close()
         CreateAnnounces(index);
     }
 
@@ -85,29 +90,37 @@ async function CreateAnnounces(index, index_2) {
     console.log("[+] CREATE PRODUCT");
 
     try {
+        
+        await page.waitForSelector('[label="Título*"]');
         await page.type('[label="Título*"]', `${data_[index].announce[i].title}`);
+        console.log("[+] 1");
         await page.type('[label="Descrição*"]', `${data_[index].announce[i].description}`);
+        console.log("[+] 2");
         await page.click(`[title ="${data_[index].announce[i].category}"]`);
         await page.click(`[title="${data_[index].announce[i].subCategory}"]`);
+        console.log("[+] 3");
         await page.type('[label="Localização*"]', `${data_[index].announce[i].location}`);
         await page.waitForTimeout(500);
+        console.log("[+] 4");
         await page.select('[label="Marca*"]', `${data_[index].announce[i].marca}`);
+        console.log("[+] 5");
         await page.select('[label="Modelo*"]', `${data_[index].announce[i].model}`);
+        console.log("[+] 6");
         await page.select('[label="Versão*"]', `${data_[index].announce[i].version}`);
+        console.log("[+] 7");
         await page.select('[label="Ano do modelo*"]', `${data_[index].announce[i].model_year}`);
+        console.log("[+] 8");
         await page.type('[label="Quilometragem*"]', `${data_[index].announce[i].mileage}`);
-        //await page.select('[label="Cilindradas*"]', `${data_[index].announce[i].portas}`);
-        //await page.select('[label="Tipo de moto"]', `${data_[index].announce[i].engine}`);
         const [boxGNV] = await page.$x("//span[contains(., 'com Kit GNV')]");
         await boxGNV.click();
-
+        console.log("[+] 9");
         await page.select('[label="Cor"]', `${data_[index].announce[i].color}`);
         await page.select('[label="Aceita Trocas"]', `${data_[index].announce[i].isTradable}`);
         const [box1] = await page.$x("//span[contains(., 'Financiado')]");
         await box1.click();
         await page.select('[label="Único dono"]', `${data_[index].announce[i].unicoDono}`);
         await page.type('[label="Preço (R$)"]', `${data_[index].announce[i].price}`);
-
+        console.log("[+] 10");
         console.log("[+] Gerando PDF e Guardando dados...");
         const element = await page.$("input[type=file]");
         await element.uploadFile('./test.png');
@@ -115,7 +128,9 @@ async function CreateAnnounces(index, index_2) {
 
         console.log("[+] DONE");
         console.log("[UPDATE] Call UpdateFunction... next index for new post ");
-
+        console.log(".");
+        console.log(".");
+        console.log(".");
         UpdateNewIndex();
 
 
@@ -127,8 +142,6 @@ async function CreateAnnounces(index, index_2) {
         console.log(".");
         await page.browser().disconnect;
         await page.close();
-
-        CreateAnnounces(index, i);
     }
 
 }
@@ -153,21 +166,20 @@ async function UpdateNewIndex() {
         console.log("[NEW_USER] CHANGE USER ACCOUNT, NEW INDEX INSERTED");
     } else {
         product_count++;
+        console.log("[STATUS] actualy index: " + index);
         console.log("[UPDATE] Product count for " + data_[index].user + " is " + product_count);
     }
 }
 async function GenerateAnnounces() {
 
-    for (let i = 0; i <= max_account_post; i++) {
-        let product_info = this.product_count;
-        let response = await GetPostData(index);
+    let product_info = this.product_count;
+    let response = await GetPostData(index);
 
-        console.log("[STATUS-CODE] " + response);
-        if (response) {
-            await SettingDefaultValues();
+    console.log("[STATUS-CODE] " + response);
+    if (response) {
+        await SettingDefaultValues();
 
-            await CreateAnnounces(index, product_info);
-        }
+        await CreateAnnounces(index, product_info);
     }
 }
 module.exports = { GenerateAnnounces }
